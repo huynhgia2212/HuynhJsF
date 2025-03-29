@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Tìm kiếm người dùng</title>
+    <style>
+        .search-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 8px;
+        }
+        .search-button {
+            padding: 8px 16px;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .not-found {
+            background-color: #ffeeee;
+            color: #cc0000;
+        }
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .user-table th, .user-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .user-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="search-container">
+        <h1>Tìm kiếm người dùng</h1>
+        
+        <h:form styleClass="search-form">
+            <h:inputText value="#{AuthController.searchKeyword}" 
+                       styleClass="search-input"
+                       placeholder="Nhập tên người dùng"/>
+            <h:commandButton value="Tìm kiếm" 
+                           action="#{AuthController.searchUsers}"
+                           styleClass="search-button"/>
+        </h:form>
+        
+        <h1>Không tìm thấy người dùng!</h1>
+        
+        <h:panelGroup rendered="#{AuthController.searchMessage != null}">
+            <div class="message not-found">
+                #{authController.searchMessage}
+            </div>
+        </h:panelGroup>
+        
+        <h:dataTable value="#{AuthController.searchResults}" var="user"
+                    styleClass="user-table" rendered="#{not empty AuthController.searchResults}">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{user.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tên người dùng</f:facet>
+                #{user.username}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Vai trò</f:facet>
+                #{user.role}
+            </h:column>
+        </h:dataTable>
+    </div>
+</h:body>
+</html>

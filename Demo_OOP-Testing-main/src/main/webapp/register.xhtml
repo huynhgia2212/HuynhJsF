@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Đăng ký | Blog Management</title>
+    <style>
+        /* Reset và base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        }
+        
+        /* Biến màu sắc */
+        :root {
+            --primary: #4a6bff;
+            --primary-dark: #3a56cc;
+            --success: #2ecc71;
+            --text: #333;
+            --text-light: #666;
+            --white: #fff;
+            --gray: #e9ecef;
+            --error: #e74c3c;
+        }
+        
+        /* Register container */
+        .register-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        /* Register header */
+        .register-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .register-header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="25" cy="25" r="5" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="5" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="25" r="5" fill="rgba(255,255,255,0.1)"/><circle cx="25" cy="75" r="5" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .register-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .register-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Register form */
+        .register-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.1);
+        }
+        
+       
+        /* Button styles */
+        .register-button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .register-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+        }
+        
+        /* Footer links */
+        .register-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .register-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .register-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Error messages */
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        /* Success message */
+        .success-message {
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+        }
+        
+        /* Animation */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .register-container {
+                max-width: 100%;
+            }
+            
+            .register-header {
+                padding: 25px;
+            }
+            
+            .register-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1 class="register-title">Tạo tài khoản mới</h1>
+        </div>
+        
+        <h:form styleClass="register-form">
+            <div class="form-group">
+                <h:outputLabel for="username" value="Tên đăng nhập" styleClass="form-label"/>
+                <h:inputText id="username" value="#{authController.username}" 
+                    styleClass="form-input" required="true" 
+                    requiredMessage="Vui lòng nhập tên đăng nhập"/>
+                <h:message for="username" styleClass="error-message"/>
+            </div>
+            
+            <div class="form-group">
+                <h:outputLabel for="password" value="Mật khẩu" styleClass="form-label"/>
+                <h:inputSecret id="password" value="#{authController.password}" 
+                    styleClass="form-input" required="true"
+                    requiredMessage="Vui lòng nhập mật khẩu"/>
+                <div class="password-strength">
+                    <div class="strength-meter" id="passwordStrength"></div>
+                </div>
+                <h:message for="password" styleClass="error-message"/>
+            </div>
+            
+            <div class="form-group">
+                <h:outputLabel for="confirmPassword" value="Xác nhận mật khẩu" styleClass="form-label"/>
+                <h:inputSecret id="confirmPassword" styleClass="form-input" required="true"
+                    requiredMessage="Vui lòng xác nhận mật khẩu"/>
+                <h:message for="confirmPassword" styleClass="error-message"/>
+            </div>
+            
+            <h:commandButton value="Đăng ký" action="#{authController.register}" 
+                styleClass="register-button"/>
+            
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i> Đăng ký thành công!
+            </div>
+        </h:form>
+        
+        <div class="register-footer">
+            <p>Đã có tài khoản? <h:link value="Đăng nhập ngay" outcome="login.xhtml" styleClass="register-link"/></p>
+        </div>
+    </div>
+
+   
+</h:body>
+</html>

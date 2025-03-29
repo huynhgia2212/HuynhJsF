@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Trang quản lý | Blog Management</title>
+    <style>
+        /* Reset và base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Biến màu sắc */
+        :root {
+            --primary: #4a6bff;
+            --primary-light: #eef1ff;
+            --primary-dark: #3a56cc;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --text: #333;
+            --text-light: #666;
+            --white: #fff;
+            --gray: #e9ecef;
+            --gray-dark: #d1d5db;
+        }
+        
+        /* Layout */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 5px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main content */
+        .main-content {
+            padding: 30px;
+        }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--text);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.2);
+        }
+        
+        /* Posts table */
+        .posts-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .posts-table th {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .posts-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .posts-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .posts-table tr:hover td {
+            background: var(--primary-light);
+        }
+        
+        .post-title {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 5px;
+        }
+        
+        .post-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-published {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
+        .status-draft {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning);
+        }
+        
+        .action-buttons-cell {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: var(--gray);
+            color: var(--text);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .edit-btn:hover {
+            background: rgba(74, 107, 255, 0.1);
+            color: var(--primary);
+        }
+        
+        .delete-btn:hover {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .posts-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Blog Management</h2>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i>📝</i> Bài viết
+                    </a>
+                </li>
+             
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i>👥</i> Người dùng
+                    </a>
+                </li>
+              
+            </ul>
+        </aside>
+        
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="page-title">Quản lý bài viết</h1>
+                
+                <div class="user-menu">
+                    <div class="user-avatar">
+                        #{authController.username.substring(0, 1).toUpperCase()}
+                    </div>
+                    <h:commandButton value="Đăng xuất" action="#{authController.logout}" 
+                        styleClass="logout-btn"/>
+                </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="action-buttons">
+                <h:commandButton value="Thêm bài viết" action="createPost.xhtml?faces-redirect=true" 
+                    styleClass="btn btn-primary"/>
+            </div>
+            
+            <!-- Posts table -->
+            <h:dataTable value="#{postController.allPosts}" var="post" styleClass="posts-table">
+                <h:column>
+                    <f:facet name="header">Tiêu đề</f:facet>
+                    <div class="post-title">#{post.title}</div>
+                    <div class="post-meta">
+                        #{post.createdAt}
+                    </div>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Trạng thái</f:facet>
+                    <span class="status-badge status-#{post.status.toLowerCase()}">
+                        #{post.status}
+                    </span>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Tác giả</f:facet>
+                    #{post.userId}
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Thao tác</f:facet>
+                    <div class="action-buttons-cell">
+                        <button class="action-btn edit-btn" title="Sửa">
+                            <i>✏️</i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Xóa">
+                            <i>🗑️</i>
+                        </button>
+                    </div>
+                </h:column>
+            </h:dataTable>
+        </main>
+    </div>
+</h:body>
+</html>

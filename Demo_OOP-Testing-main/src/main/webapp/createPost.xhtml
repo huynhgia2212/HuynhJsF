@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <title>Tạo bài viết mới | Blog Management</title>
+    <style>
+        /* Reset và base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        /* Form container */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Tiêu đề trang */
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        /* Nút submit */
+        .submit-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="form-container">
+        <h1>Tạo bài viết mới</h1>
+        
+        <h:form>
+            <div class="form-group">
+                <h:outputLabel for="title" value="Tiêu đề bài viết"/>
+                <h:inputText id="title" value="#{postController.post.title}" 
+                    style="width:100%; padding:10px;"/>
+            </div>
+            
+            <div class="form-group">
+                <h:outputLabel for="body" value="Nội dung bài viết"/>
+                <h:inputTextarea id="body" value="#{postController.post.body}" 
+                    style="width:100%; min-height:200px; padding:10px;"/>
+            </div>
+            
+            <div class="form-group" style="text-align: center;">
+                <h:commandButton value="Lưu bài viết" action="#{postController.savePost}" 
+                    styleClass="submit-btn"/>
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>
